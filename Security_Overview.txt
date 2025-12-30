@@ -1,0 +1,22 @@
+Security Overview - Secure File Sharing System
+==============================================
+
+1. Encryption Standard
+----------------------
+This application uses AES (Advanced Encryption Standard) with a 256-bit key length.
+We utilize the EAX mode (Encrypt-then-Authenticate-then-Translate).
+- Why EAX? It provides both confidentiality (secrecy) and authenticity (integrity).
+- Unlike simpler modes like ECB, EAX prevents replay attacks and ensures the ciphertext has not been tampered with.
+
+2. Key Management
+-----------------
+- Upon initialization, the system generates a random 32-byte (256-bit) key using `Crypto.Random.get_random_bytes`.
+- This key is stored locally in `secret.key`.
+- In a real-world production environment, this key would be managed via a Hardware Security Module (HSM) or secure environment variables to prevent unauthorized access.
+
+3. File Handling
+----------------
+- Uploaded files are immediately read into memory and encrypted.
+- The original unencrypted file is securely deleted from the disk (`os.remove`).
+- Only the encrypted version (`.enc`) is stored in the `uploads/` directory.
+- Decryption only occurs temporarily upon a user request with the correct key.
