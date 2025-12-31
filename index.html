@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure File Share</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f4f4f9; }
+        h1 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .upload-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input[type="file"] { margin-bottom: 10px; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: white; margin: 5px 0; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
+        a { text-decoration: none; color: #007bff; font-weight: bold; }
+        .footer { margin-top: 20px; font-size: 0.8em; color: #666; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>🔒 Secure File Sharing System (AES-256)</h1>
+    
+    <div class="upload-box">
+        <h3>Upload a File to Encrypt</h3>
+        <p>Files are encrypted using AES-256 (EAX Mode) before storage.</p>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <br>
+            <button type="submit">Upload & Encrypt</button>
+        </form>
+    </div>
+
+    <h3>📂 Encrypted Files Storage</h3>
+    <ul>
+        {% for file in files %}
+        <li>
+            <span>📄 {{ file }}</span>
+            <a href="{{ url_for('download_file', filename=file) }}">Download & Decrypt ⬇️</a>
+        </li>
+        {% else %}
+        <li>No encrypted files found. Upload one to start!</li>
+        {% endfor %}
+    </ul>
+
+    <div class="footer">
+        Future Interns Task 3 - Developed by [Your Name]
+    </div>
+</body>
+</html>
